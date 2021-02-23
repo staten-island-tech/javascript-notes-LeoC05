@@ -7,6 +7,39 @@
     <title>Document</title>
 </head>
 <body>
+    <input type="text" name="first" value="wes">
     <script src="./java.js"></script>
+    <script>
+        const age = 100;
+        const wes = {
+            age: age, 
+            name: 'wes',
+            'cool-dude': true,
+            'really cool': false,
+            '777': true,
+            dog: 'snickers',
+            clothing: {
+                shirts: 10,
+                pants: 2,
+            },
+            sayHello: function(greeting = 'Hey') { //If a function in a property of an object, it is a method of that object
+                return `${greeting} ${this.name}`; //this is wes
+            } 
+        };
+
+        wes.job = 'Web Developer'; //adding job property to wes object
+        wes.age = 50; //overwriting properties in wes object
+        console.log(wes.age);
+        //const wesFroze = Object.freeze(wes); //freezes object so not changeable
+        /*const propertyToCheck = prompt('What do you want to check?');
+        console.log(wes[propertyToCheck]);//waiting for property specification from the prompt*/
+
+        const nameInput = document.querySelector('[name="first"]');
+        const name = nameInput.value;
+        console.log(name);
+
+        delete wes.job; //deletes properties
+        //Methods 
+    </script>
 </body>
 </html>
