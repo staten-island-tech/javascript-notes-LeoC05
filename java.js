@@ -1,3 +1,40 @@
+function wait(ms = 0) {
+    return new Promise((resolve) => {
+        setTimeout(resolve, ms);
+    })
+}
+
+async function go() { //async only works with async functions
+    console.log('Starting');
+    await wait(2000); //await only works with async functions
+    console.log('running');
+    await wait(2000);
+    console.log('ending');
+}
+
+go();
+
+// Function declaration
+async function fd( ){}
+
+//arrow functions
+const arrowFn = async () => {}
+
+//callback functions
+window.addEventListener('click', async function () {
+
+})
+
+//methods
+const person = {
+    sayHi : async function() {},
+    //method shorthand
+    async sayHello() {},
+    //function property
+    sayHey : async () => {},
+}
+
+
 function makePizza(toppings = []) {
     const pizzaPromise = new Promise(function(resolve, reject) {
         //reject if people try with pineapple
@@ -15,69 +52,11 @@ function makePizza(toppings = []) {
     return pizzaPromise; //return immediately
 }
 
-
-makePizza(['pepeproni']).then(function(pizza){ //happens sequentially
-    console.log(pizza);
-    return makePizza(['ham', 'cheese']);
-}).then(function (pizza) {
-    console.log(pizza);
-    return makePizza(['hot peppers', 'onnion', 'feta']);
-}).then(function(pizza) {
-    consolge.log(pizza);
-    return makePizza(['pineapple']);;
-}).then(function(pizza) {
-    consolge.log(pizza);
-    return makePizza(['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight']);
-}).then(function(pizza) {
-    consolge.log(pizza);
-    return makePizza();
-})
-.catch(handleError);//when error happens, the promsie chain will stop
-
-//Run them Concurrently
-/* const pizzPromise1 = makePizza(['hot peppers', 'onnion', 'feta']);
-const pizzPromise2 = makePizza(['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight']);
-const pizzPromise3 = makePizza(['ham', 'cheese']);
-
-const dinnerPromise = Promise.all([pizzaPromise1, pizzaPromise2, pizzPromise3]);//a static method; adding all promises into a single promise
-
-dinnerPromise.then(function(pizzas) {
-    const [hottie, garbagePail, hamAndCheese] = pizzas;//destructures each argument into one by one
-
-    console.log(hottie, garbagePail, hamAndCheese);//waits for all 3 to be done and then logs
-});
-
-const firstPizzaPromise = Promise.race([pizzaPromise1, pizzaPromise2, pizzPromise3]);
-
-firstPizzaPromise.then(function(pizza) {
-    console.log('You must be hungry! Here is the first one ready');
-    console.log(pizza);//logs the first one to finish
-}) */
-
-
-/* const pepperoniPromise = makePizza(['pepperoni']);
-const canadianPromise = makePizza(['pepperoni', 'mushrooms', 'onions']);
-pepperoniPromise.then(function(pizza) {// use .then to get the resolved promise ; only runs when promise is ready
-    console.log('Ahh got it!');
-    console.log(pizza);
-}); */
-
-function handleError(err) {
-    console.log('Ohh nooooooo!!');
-    console.log(err);
+async function makeDinner() {
+    const pizzaPromise1 = makePizza(['pepperoni']); //will log a promise without an await
+    const pizzaPromise2 = makePizza(['mushrooms']); 
+    const [pep, mush] = await Promise.all([pizzaPromise1, pizzaPromise2]);//does both promises at the same time and destructures them
+    console.log(pep,mush);
 }
 
-makePizza(['cheense', 'pineapple'])
-    .then(pizza => { //will only resolve when promise was successful
-    console.log(pizza);
-}).catch(handleError);//will run if promise was rejected or errored
-
-
-const p1 = makePizza(['pep']);
-const p2 = makePizza(['pineapple']);
-
-const dinnerPromise2 = Promise.allSettled([p1, p2]);//will tell you errors and rejects without stopping others
-
-dinnerPromise2.then(results => {
-    console.log(resultes);
-})
+makeDinner();
